@@ -20,12 +20,20 @@ import (
 	"os"
 )
 
-var LookupEnv func(t string) (string, bool) = os.LookupEnv
-var TokenSetter func(t string, s string) *anaconda.TwitterApi = anaconda.NewTwitterApi
-var ConsumerKeySetter func(k string) = anaconda.SetConsumerKey
-var ConsumerSecretSetter func(s string) = anaconda.SetConsumerSecret
+// LookupEnv contains the function used to lookup environment variables
+var LookupEnv = os.LookupEnv
 
-func GetTwitterApi() *anaconda.TwitterApi {
+// TokenSetter contains the function used to login on Twitter as the user, and get the API interface
+var TokenSetter = anaconda.NewTwitterApi
+
+// ConsumerKeySetter contains the function used to provide the Consumer key to Twitter
+var ConsumerKeySetter = anaconda.SetConsumerKey
+
+// ConsumerSecretSetter contains the function used to provide the Consumer secret to Twitter
+var ConsumerSecretSetter = anaconda.SetConsumerSecret
+
+// GetTwitterAPI logins in Twitter and return the authenticated API
+func GetTwitterAPI() *anaconda.TwitterApi {
 	consumerKey, err1 := LookupEnv("GOLINE_CONSUMER_KEY")
 	consumerSecret, err2 := LookupEnv("GOLINE_CONSUMER_SECRET")
 	token, err3 := LookupEnv("GOLINE_ACCESS_TOKEN")
