@@ -15,8 +15,8 @@
 package cmd
 
 import (
+	"github.com/ifosch/goline/goline"
 	"github.com/spf13/cobra"
-    "github.com/ifosch/goline/goline"
 )
 
 // timelineCmd represents the timeline command
@@ -26,7 +26,7 @@ var timelineCmd = &cobra.Command{
 	Long: `This command runs goline visualizing your timeline on your
  terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
-        goline.GetTwitterApi()
+		goline.GetTwitterApi()
 	},
 }
 

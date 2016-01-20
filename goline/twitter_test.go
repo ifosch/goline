@@ -16,75 +16,83 @@ package goline
 
 import (
 	goline "."
+	"github.com/ChimeraCoder/anaconda"
+	"github.com/garyburd/go-oauth/oauth"
 	"reflect"
 	"testing"
-    "github.com/garyburd/go-oauth/oauth"
-    "github.com/ChimeraCoder/anaconda"
 )
 
 type MockTwitterApi struct {
-    Credentials *oauth.Credentials
+	Credentials *oauth.Credentials
 }
 
 var rToken string
 var rSecret string
+
 func newMockTwitterApi(token string, secret string) *anaconda.TwitterApi {
-    rToken = token
-    rSecret = secret
-    return &anaconda.TwitterApi{
-        Credentials: &oauth.Credentials{
-            Token: token,
-            Secret: secret,
-        },
-    }
+	rToken = token
+	rSecret = secret
+	return &anaconda.TwitterApi{
+		Credentials: &oauth.Credentials{
+			Token:  token,
+			Secret: secret,
+		},
+	}
 }
 
 var rConsumerKey string
+
 func mockKeySetter(key string) {
-    rConsumerKey = key
+	rConsumerKey = key
 }
 
 var rConsumerSecret string
+
 func mockSecretSetter(secret string) {
-    rConsumerSecret = secret
+	rConsumerSecret = secret
 }
 
 var xConsumerKey = "ConsumerKey"
 var xConsumerSecret = "ConsumerSecret"
 var xToken = "ConsumerKey"
 var xSecret = "ConsumerSecret"
+
 func mockLookupEnv(k string) (string, bool) {
-    switch k {
-        case "GOLINE_CONSUMER_KEY": return xConsumerKey, false
-        case "GOLINE_CONSUMER_SECRET": return xConsumerSecret, false
-        case "GOLINE_ACCESS_TOKEN": return xToken, false
-        case "GOLINE_ACCESS_TOKEN_SECRET": return xSecret, false
-    }
-    return "", true
+	switch k {
+	case "GOLINE_CONSUMER_KEY":
+		return xConsumerKey, false
+	case "GOLINE_CONSUMER_SECRET":
+		return xConsumerSecret, false
+	case "GOLINE_ACCESS_TOKEN":
+		return xToken, false
+	case "GOLINE_ACCESS_TOKEN_SECRET":
+		return xSecret, false
+	}
+	return "", true
 }
 
 func TestGetTwitterApi(t *testing.T) {
-    goline.TokenSetter = newMockTwitterApi
-    goline.ConsumerKeySetter = mockKeySetter
-    goline.ConsumerSecretSetter = mockSecretSetter
-    goline.LookupEnv = mockLookupEnv
+	goline.TokenSetter = newMockTwitterApi
+	goline.ConsumerKeySetter = mockKeySetter
+	goline.ConsumerSecretSetter = mockSecretSetter
+	goline.LookupEnv = mockLookupEnv
 
-    var result interface{} = goline.GetTwitterApi()
+	var result interface{} = goline.GetTwitterApi()
 
 	v, err := result.(MockTwitterApi)
 	if err {
 		t.Fatalf("GetTwitterApi returned %s instead of anaconda.TwitterApi", reflect.TypeOf(v))
 	}
-    if rConsumerKey != xConsumerKey {
-        t.Fatalf("Received consumer key %s instead of %s", rConsumerKey, xConsumerKey)
-    }
-    if rConsumerSecret != xConsumerSecret {
-        t.Fatalf("Received consumer secret %s instead of %s", rConsumerSecret, xConsumerSecret)
-    }
-    if rToken != xToken {
-        t.Fatalf("Received token %s instead of %s", rToken, xToken)
-    }
-    if rSecret != xSecret {
-        t.Fatalf("Received token secret %s instead of %s", rSecret, xSecret)
-    }
+	if rConsumerKey != xConsumerKey {
+		t.Fatalf("Received consumer key %s instead of %s", rConsumerKey, xConsumerKey)
+	}
+	if rConsumerSecret != xConsumerSecret {
+		t.Fatalf("Received consumer secret %s instead of %s", rConsumerSecret, xConsumerSecret)
+	}
+	if rToken != xToken {
+		t.Fatalf("Received token %s instead of %s", rToken, xToken)
+	}
+	if rSecret != xSecret {
+		t.Fatalf("Received token secret %s instead of %s", rSecret, xSecret)
+	}
 }

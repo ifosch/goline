@@ -15,9 +15,9 @@
 package goline
 
 import (
-    "os"
-    "log"
 	"github.com/ChimeraCoder/anaconda"
+	"log"
+	"os"
 )
 
 var LookupEnv func(t string) (string, bool) = os.LookupEnv
@@ -26,13 +26,13 @@ var ConsumerKeySetter func(k string) = anaconda.SetConsumerKey
 var ConsumerSecretSetter func(s string) = anaconda.SetConsumerSecret
 
 func GetTwitterApi() *anaconda.TwitterApi {
-    consumerKey, err1 := LookupEnv("GOLINE_CONSUMER_KEY")
-    consumerSecret, err2 := LookupEnv("GOLINE_CONSUMER_SECRET")
-    token, err3 := LookupEnv("GOLINE_ACCESS_TOKEN")
-    secret, err4 := LookupEnv("GOLINE_ACCESS_TOKEN_SECRET")
-    if err1 || err2 || err3 || err4 {
-        log.Fatal("Some error happened when accessing GOLINE_* environment variables")
-    }
+	consumerKey, err1 := LookupEnv("GOLINE_CONSUMER_KEY")
+	consumerSecret, err2 := LookupEnv("GOLINE_CONSUMER_SECRET")
+	token, err3 := LookupEnv("GOLINE_ACCESS_TOKEN")
+	secret, err4 := LookupEnv("GOLINE_ACCESS_TOKEN_SECRET")
+	if err1 || err2 || err3 || err4 {
+		log.Fatal("Some error happened when accessing GOLINE_* environment variables")
+	}
 	ConsumerKeySetter(consumerKey)
 	ConsumerSecretSetter(consumerSecret)
 	return TokenSetter(token, secret)
