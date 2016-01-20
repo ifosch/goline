@@ -22,14 +22,14 @@ import (
 	"testing"
 )
 
-type MockTwitterApi struct {
+type MockTwitterAPI struct {
 	Credentials *oauth.Credentials
 }
 
 var rToken string
 var rSecret string
 
-func newMockTwitterApi(token string, secret string) *anaconda.TwitterApi {
+func newMockTwitterAPI(token string, secret string) *anaconda.TwitterApi {
 	rToken = token
 	rSecret = secret
 	return &anaconda.TwitterApi{
@@ -71,17 +71,17 @@ func mockLookupEnv(k string) (string, bool) {
 	return "", true
 }
 
-func TestGetTwitterApi(t *testing.T) {
-	goline.TokenSetter = newMockTwitterApi
+func TestGetTwitterAPI(t *testing.T) {
+	goline.TokenSetter = newMockTwitterAPI
 	goline.ConsumerKeySetter = mockKeySetter
 	goline.ConsumerSecretSetter = mockSecretSetter
 	goline.LookupEnv = mockLookupEnv
 
-	var result interface{} = goline.GetTwitterApi()
+	var result interface{} = goline.GetTwitterAPI()
 
-	v, err := result.(MockTwitterApi)
+	v, err := result.(MockTwitterAPI)
 	if err {
-		t.Fatalf("GetTwitterApi returned %s instead of anaconda.TwitterApi", reflect.TypeOf(v))
+		t.Fatalf("GetTwitterAPI returned %s instead of anaconda.TwitterApi", reflect.TypeOf(v))
 	}
 	if rConsumerKey != xConsumerKey {
 		t.Fatalf("Received consumer key %s instead of %s", rConsumerKey, xConsumerKey)
