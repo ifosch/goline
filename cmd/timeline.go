@@ -26,7 +26,7 @@ var timelineCmd = &cobra.Command{
 	Long: `This command runs goline visualizing your timeline on your
  terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		goline.GetTwitterApi()
+		goline.GetTwitterAPI()
 	},
 }
 
