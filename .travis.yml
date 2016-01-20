@@ -1,0 +1,10 @@
+language: go
+go:
+  - 1.5.2
+  - 1.5.3
+  - tip
+sudo: false
+
+script:
+    - cd goline/ && go test -v
+    - cd ../
